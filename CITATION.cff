@@ -1,0 +1,24 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: BoSSS
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Benjamin 
+    familiy-names: Marussig
+    orcid: 'https://orcid.org/0000-0001-6076-4326'
+  - given-names: Michael
+    familiy-names: Loibl
+    orcid: 'https://orcid.org/0009-0006-2146-3727'
+  - given-names: Teoman
+    family-names: Toprak
+	orcid: 'https://orcid.org/0009-0005-8817-5044'
+  - given-names: Florian
+    family-names: Kummer
+    orcid: 'https://orcid.org/0000-0002-2827-7576'
+ 
+
