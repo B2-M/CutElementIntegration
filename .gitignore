@@ -1,8 +1,16 @@
 # ignore ALL files in ANY directory named results
+coverage-report/
+queso_output/
+obsolete/
+reports/
 results/
 results_local/
-*.out
-*.asv
-queso_output/
+results_old/
+results_ref_old/
+results_server/
 __pycache__/
+*.asv
+*.out
+*.pdf
+*.svg
 reports/

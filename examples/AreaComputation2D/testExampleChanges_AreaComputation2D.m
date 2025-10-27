@@ -1,9 +1,9 @@
 %% Contributers: 
 %    Florian Kummer, Technische Universität Darmstadt
-%    Michael Loibl, Universtiy of the Bundeswehr Munich
+%    Michael Loibl, University of the Bundeswehr Munich
 %    Benjamin Marussig, Graz University of Technology  
-%    Guliherme H. Teixeira, Graz University of Technology  
-%    Muhammed Toprak, Technische Universität Darmstadt
+%    Guilherme H. Teixeira, Graz University of Technology  
+%    Teoman Toprak, Technische Universität Darmstadt
 %  
 %
 %% Copyright (C) 2025, Graz University of Technology 
@@ -74,17 +74,9 @@ classdef testExampleChanges_AreaComputation2D < TestCases2D
 
         end
 
-
-
-
-
-
-
-
-
-
     end
 
 end
+
 
 

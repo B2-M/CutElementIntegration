@@ -1,9 +1,9 @@
 %% Contributers: 
 %    Florian Kummer, Technische Universität Darmstadt
-%    Michael Loibl, Universtiy of the Bundeswehr Munich
+%    Michael Loibl, University of the Bundeswehr Munich
 %    Benjamin Marussig, Graz University of Technology  
-%    Guliherme H. Teixeira, Graz University of Technology  
-%    Muhammed Toprak, Technische Universität Darmstadt
+%    Guilherme H. Teixeira, Graz University of Technology  
+%    Teoman Toprak, Technische Universität Darmstadt
 %  
 %
 %% Copyright (C) 2025, Graz University of Technology 
@@ -39,13 +39,12 @@ classdef FcmlabIntegrator < AbstractIntegrator
     % Integrator definition as interface of the Fcmlab to the main code.
 
     properties(SetAccess = private)
-        n_quad_pts          % Number of quadrature points
-        reparam_degree      % Degree of the trim curve reparametrization
         SpaceTreeDepth = 1  % number of subdivision levels of Quadtree/Octree; 
                             % in original code most of the time 3 used, but 
                             % at first reduced for speed-up
         SeedPoints = 10     % number of intermediate points on element to find 
-                            % intersections
+                            % intersections; default number as in
+                            % "AnnularPlateLinesElementwise.m"
     end
 
     methods(Static)
@@ -97,25 +96,27 @@ classdef FcmlabIntegrator < AbstractIntegrator
 
     methods
 
-        function obj = FcmlabIntegrator(n_quad_pts, reparam_degree )   
-            obj.n_quad_pts = n_quad_pts;
-            obj.reparam_degree = reparam_degree;
+        function obj = FcmlabIntegrator(n_quad_pts, SpaceTreeDepth )
+            obj = obj@AbstractIntegrator(n_quad_pts);
+            if nargin==2 && ~isempty(SpaceTreeDepth)
+                obj.SpaceTreeDepth = SpaceTreeDepth;
+            end
             obj.addIntegratorPaths;
         end
 
         function out = PropertyString( objFcmlab )
-            out = ['q' num2str(objFcmlab.reparam_degree) '-nq' num2str(objFcmlab.n_quad_pts)];
+            out = ['nq' num2str(objFcmlab.n_quad_pts) '-sub' num2str(objFcmlab.SpaceTreeDepth)];
         end
 
-        function [area,objQuadData] = computeArea2D( objFcmlab, objTest )
-            % Function to determine quadrature points and area of a 2D
+        function [measure,objQuadData] = integrateDomain2D( objFcmlab, objTest )
+            % Function to determine quadrature points and measure of a 2D
             % problem.
 
             assert(objTest.dim == 2)
 
             % Create interface (not part of original Fcmlab code)
             if length(objTest.interface) > 1
-                error('Fcmlab::computeArea2D not prepared for multiple interfaces so far!')
+                error('Fcmlab::integrateDomain2D not prepared for multiple interfaces so far!')
             end
             n_curves = length(objTest.interface.implicit);
             fcmlab_interface_2D = cell(n_curves,1);
@@ -164,11 +165,18 @@ classdef FcmlabIntegrator < AbstractIntegrator
             Analysis = QuadratureAnalysis( MeshFactory );
 
             % get integration points (not part of original Fcmlab code)
-            [area,objQuadData] = Analysis.get_quadrature_points(objTest);
+            [measure,objQuadData] = Analysis.get_quadrature_points(objTest);
 
+            % compute integral for arbitrary integrand
+            if objTest.integrand~=1
+                measure = objQuadData.compute_integral(objTest.integrand); % recompute 
+                % the measure since the measure is not 
+                % requested as computed above but as an integral with an 
+                % integrand ~=1
+            end
         end
 
-        function [volume,objQuadData] = computeVolume3D( objFcmlab, objTest )
+        function [measure,objQuadData] = integrateDomain3D( objFcmlab, objTest )
             % Function to determine quadrature points and area of a 3D
             % problem.
 
@@ -176,7 +184,7 @@ classdef FcmlabIntegrator < AbstractIntegrator
 
             % Create interface (not part of original Fcmlab code)
             if length(objTest.interface) > 1
-                error('Fcmlab::computeVolume3D not prepared for multiple interfaces so far!')
+                error('Fcmlab::integrateDomain3D not prepared for multiple interfaces so far!')
             end
             n_curves = length(objTest.interface.implicit);
             fcmlab_interface_3D = cell(n_curves,1);
@@ -227,7 +235,15 @@ classdef FcmlabIntegrator < AbstractIntegrator
             Analysis = QuadratureAnalysis( MeshFactory );
 
             % get integration points (not part of original Fcmlab code)
-            [volume,objQuadData] = Analysis.get_quadrature_points(objTest);
+            [measure,objQuadData] = Analysis.get_quadrature_points(objTest);
+
+            % compute integral for arbitrary integrand
+            if objTest.integrand~=1
+                measure = objQuadData.compute_integral(objTest.integrand); % recompute 
+                % the measure since the measure is not 
+                % requested as computed above but as an integral with an 
+                % integrand ~=1
+            end
         end
 
         function [measure,objQuadData] = computeInterfaceCurveLength( objFcmlab, objTest )
