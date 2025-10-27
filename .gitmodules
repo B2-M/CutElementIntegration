@@ -1,0 +1,3 @@
+[submodule "codes/fcmlab/fcmlab"]
+	path = codes/fcmlab/fcmlab
+	url = https://gitlab.lrz.de/cie_sam_public/fcmlab.git

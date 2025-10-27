@@ -1,0 +1,8 @@
+# ignore ALL files in ANY directory named results
+results/
+results_local/
+*.out
+*.asv
+queso_output/
+__pycache__/
+reports/
