@@ -1,9 +1,9 @@
 %% Contributers: 
 %    Florian Kummer, Technische Universität Darmstadt
-%    Michael Loibl, Universtiy of the Bundeswehr Munich
+%    Michael Loibl, University of the Bundeswehr Munich
 %    Benjamin Marussig, Graz University of Technology  
-%    Guliherme H. Teixeira, Graz University of Technology  
-%    Muhammed Toprak, Technische Universität Darmstadt
+%    Guilherme H. Teixeira, Graz University of Technology  
+%    Teoman Toprak, Technische Universität Darmstadt
 %  
 %
 %% Copyright (C) 2025, Graz University of Technology 
@@ -92,7 +92,7 @@ for n_refs = n_refs_min : n_refs_max
         % integrate
         try 
             tic
-            [area,objQuadData] = objIntegrators{i}.computeArea2D( objTest );
+            [area,objQuadData] = objIntegrators{i}.integrateDomain2D( objTest );
             integ_time = toc;
         catch catched_error
             warning("%s failed for testCase %i", objIntegrators{i}.Name, testCaseId)
@@ -188,8 +188,7 @@ function [error_log, names] = local_set_up_log_data(testCaseId, ...
     objIntegrators, n_refs_max, n_refs_min)
 
 n_rows = n_refs_max-n_refs_min+1;
-name_path = './examples/AreaComputation2D/results/';
-name_test = ['runAreaComputation2D_tC_' num2str(testCaseId)];
+[name_path,name_test] = getLogFileNames(testCaseId,'AreaComputation2D');
 [error_log, names] = set_up_log_data( objIntegrators, n_rows, name_path, name_test);
 
 end

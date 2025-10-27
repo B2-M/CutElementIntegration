@@ -1,9 +1,9 @@
 %% Contributers: 
 %    Florian Kummer, Technische Universität Darmstadt
-%    Michael Loibl, Universtiy of the Bundeswehr Munich
+%    Michael Loibl, University of the Bundeswehr Munich
 %    Benjamin Marussig, Graz University of Technology  
-%    Guliherme H. Teixeira, Graz University of Technology  
-%    Muhammed Toprak, Technische Universität Darmstadt
+%    Guilherme H. Teixeira, Graz University of Technology  
+%    Teoman Toprak, Technische Universität Darmstadt
 %  
 %
 %% Copyright (C) 2025, Graz University of Technology 
@@ -195,8 +195,7 @@ function [error_log, names] = local_set_up_log_data(testCaseId, ...
     objIntegrators, n_refs_max, n_refs_min)
 
 n_rows = n_refs_max-n_refs_min+1;
-name_path = './examples/InterfaceComputation3D/results/';
-name_test = ['runInterfaceSurfaceArea_tC_' num2str(testCaseId)];
+[name_path,name_test] = getLogFileNames(testCaseId,'InterfaceComputation3D');
 name_cols = {'relError','absError','h','nbQuadptsInterface',...
         'integration_time_sec'};
 [error_log, names] = set_up_log_data( objIntegrators, n_rows, ...

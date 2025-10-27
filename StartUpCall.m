@@ -1,9 +1,9 @@
 %% Contributers: 
 %    Florian Kummer, Technische Universität Darmstadt
-%    Michael Loibl, Universtiy of the Bundeswehr Munich
+%    Michael Loibl, University of the Bundeswehr Munich
 %    Benjamin Marussig, Graz University of Technology  
-%    Guliherme H. Teixeira, Graz University of Technology  
-%    Muhammed Toprak, Technische Universität Darmstadt
+%    Guilherme H. Teixeira, Graz University of Technology  
+%    Teoman Toprak, Technische Universität Darmstadt
 %  
 %
 %% Copyright (C) 2025, Graz University of Technology 
@@ -38,12 +38,29 @@
 function StartUpCall
 
 % add key paths
-addpath(genpath('./utils')); 
-addpath(genpath('./nurbs-1.4.3'));
-addpath(genpath('./examples'));
 addpath('./codes');
+addpath('./framework-classes');
+addpath(genpath('./examples'));
+addpath(genpath('./nurbs-1.4.3'));
+addpath(genpath('./publications'));
+addpath(genpath('./utilities')); 
 
-% get accessible integrators (their paths are loaded by the class's constructor)
-getAccessibleIntegrators(1, 2);
+% Set execution mode for Python processes.
+% Is remembered for each instance, but still is explicitly stated here to
+% ease code usage on different computers. Reason for this choice from
+% documentation: "Working with Python libraries that require a different
+% version of a third-party library also required by MATLAB."
+pyenv("ExecutionMode","OutOfProcess");
+
+fprintf('\n=== Initializing CutElementIntegration Framework ===\n');
+
+% Check MATLAB toolbox availability
+checkMatlabToolboxes();
+
+% Check integrator availability and cache results globally
+global FOUND_INTEGRATORS
+FOUND_INTEGRATORS = checkIntegratorAvailability();
+
+fprintf('Framework initialization complete.\n');
 
 end

@@ -1,9 +1,9 @@
 %% Contributers: 
 %    Florian Kummer, Technische Universität Darmstadt
-%    Michael Loibl, Universtiy of the Bundeswehr Munich
+%    Michael Loibl, University of the Bundeswehr Munich
 %    Benjamin Marussig, Graz University of Technology  
-%    Guliherme H. Teixeira, Graz University of Technology  
-%    Muhammed Toprak, Technische Universität Darmstadt
+%    Guilherme H. Teixeira, Graz University of Technology  
+%    Teoman Toprak, Technische Universität Darmstadt
 %  
 %
 %% Copyright (C) 2025, Graz University of Technology 
@@ -43,13 +43,14 @@ if nargin < 3
     n_quad_pts = 3;         % Number of quadrature point per element in each direction
     reparam_degree = 3;     % Degree of the reparametrisation of cut elements
     problem_dimension = 2;  % Spatial dimension of the background mesh
-    objInt = getAccessibleIntegrators(n_quad_pts, reparam_degree, problem_dimension );
+    objInt = getAccessibleIntegrators(n_quad_pts,problem_dimension, ...
+        'reparam_degree',reparam_degree);
 end
 
 %% set number of refinements 
 if nargin < 1
     n_refs_min = 1;
-    n_refs_max = 5;
+    n_refs_max = 7;
 end
 
 %% plot setting

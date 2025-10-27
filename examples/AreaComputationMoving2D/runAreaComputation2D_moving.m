@@ -1,9 +1,9 @@
 %% Contributers: 
 %    Florian Kummer, Technische Universität Darmstadt
-%    Michael Loibl, Universtiy of the Bundeswehr Munich
+%    Michael Loibl, University of the Bundeswehr Munich
 %    Benjamin Marussig, Graz University of Technology  
-%    Guliherme H. Teixeira, Graz University of Technology  
-%    Muhammed Toprak, Technische Universität Darmstadt
+%    Guilherme H. Teixeira, Graz University of Technology  
+%    Teoman Toprak, Technische Universität Darmstadt
 %  
 %
 %% Copyright (C) 2025, Graz University of Technology 
@@ -66,7 +66,7 @@ n_steps = length(dsteps);
 out_area = zeros(n_steps,length(objIntegrators));
 out_objQuadData = cell(n_steps,length(objIntegrators));
 for i_step = 1:n_steps
-    objTest = getTestCase2D( testCaseId,dsteps(i_step) );
+    objTest = getTestCase2D( testCaseId,'d',dsteps(i_step) );
     if ~isa(objTest,'TestCase') 
         error("Error: the second input must be an ID of a test case (see getTestCase2D ).")
     end
@@ -89,14 +89,14 @@ for i_step = 1:n_steps
         % integrate
         try 
             tic
-            [area,objQuadData] = objIntegrators{i}.computeArea2D( objTest );
+            [area,objQuadData] = objIntegrators{i}.integrateDomain2D( objTest );
             integ_time = toc;
         catch catched_error
             warning("%s failed for testCase %i", objIntegrators{i}.Name, testCaseId)
             disp(catched_error.getReport);
             %
-            error_log(i).data( i_step, 1) = 10;
-            error_log(i).data( i_step, 2) = 10;
+            error_log(i).data( i_step, 1) = NaN;
+            error_log(i).data( i_step, 2) = NaN;
             error_log(i).data( i_step, 3) = dsteps(i_step);
             error_log(i).data( i_step, 4) = 0;
             error_log(i).data( i_step, 5) = 0;
@@ -189,8 +189,7 @@ end
 function [error_log, names] = local_set_up_log_data(testCaseId, ...
     objIntegrators, n_refs_max, n_refs_min)
     n_rows = n_refs_max-n_refs_min+1;
-    name_path = './examples/AreaComputationMoving2D/results/';
-    name_test = ['runAreaComputation2D_tC_' num2str(testCaseId)];
+    [name_path,name_test] = getLogFileNames(testCaseId,'AreaComputationMoving2D');
     name_cols={'relError','absError','step','nbQuadptsTrimmedElems',...
             'nbQuadptsNonTrimmedElems','IntegrationTime_sec_'};
     [error_log, names] = set_up_log_data( objIntegrators, n_rows, ...
