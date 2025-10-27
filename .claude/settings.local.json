@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git checkout --orphan public-migration-with-citation)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
