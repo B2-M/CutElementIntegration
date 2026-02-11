@@ -8,9 +8,9 @@ results_local/
 results_old/
 results_ref_old/
 results_server/
+results_ser/
 __pycache__/
 *.asv
 *.out
 *.pdf
 *.svg
-reports/

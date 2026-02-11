@@ -85,6 +85,7 @@ function runAllFrameworkTests()
         % Display test summary
         numPassed = sum([results.Passed]);
         numFailed = sum([results.Failed]);
+        numIncomp  = sum([results.Incomplete]);        
         numTotal = length(results);
 
         fprintf('\n=== TEST RESULTS SUMMARY ===\n');
@@ -122,10 +123,16 @@ function runAllFrameworkTests()
         end
 
         % Return success/failure status
-        if numFailed == 0
-            fprintf('\nAll tests passed! ✓\n');
+        if numFailed > 0 || numIncomp > 0
+            if numFailed > 0
+                fprintf('\n%d test(s) failed! ✗\n', numFailed);
+            end
+            if numIncomp > 0
+                fprintf('%d test(s) incomplete.\n', numIncomp);
+            end
+            error('FrameworkTests:Failed','Tests failed or incomplete.');
         else
-            fprintf('\n%d test(s) failed! ✗\n', numFailed);
+            fprintf('\nAll tests passed! ✓\n');            
         end
 
     catch ME

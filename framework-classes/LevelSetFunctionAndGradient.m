@@ -78,6 +78,6 @@ classdef LevelSetFunctionAndGradient
                error("LevelSetFunctionAndGradient with dimension %i is not supported.",obj.dim)
            end
 
-       end     
+       end     % constructor
    end
 end

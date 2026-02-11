@@ -246,7 +246,7 @@ elseif InterfaceId == 13 % UniBw Munich test case 6
     sizeInterface = 1.658028370945444 + 1 - P1(2) + P5(1) + 1 - P5(2);
     sizeInsideDomain = 1 - 0.4;
 
-elseif InterfaceId == 14 % UniBw Munich test case 7
+elseif InterfaceId == 14 % test case 13, UniBw Munich test case 7
 
     P1 = [0.750417596651957,0]; P2 = [0.600334077321566;0.702728479923862];
     P3 = [0.450250557991174;0.705445663889469]; P4 = [0.300167038660783;0.625647941657809];
@@ -270,7 +270,11 @@ elseif InterfaceId == 15 % UniBw Munich test case 8
 
     P1 = [1,0.45]; P2 = [0.625,0]; P3 = [0.25,0]; P4 = [1,0];
 
-    [implCell_lines,loops_lines] = geo_line_through_pointarray({P3,P4,P1});
+    [~,loops_lines] = geo_line_through_pointarray({P3,P4,P1});
+    [implCell_lines,~] = geo_line_through_pointarray({[0.25,1],P3,P4,P1}); % adding 
+    % an additional vertical line since the curve define below turns back into 
+    % the active domain which resulted in different boundary representation 
+    % comparing the implicit and the parametric description
 
     phi = @(x,y) -0.8*x.^2+0.4*x+y-0.05;   % polynomial p=2
     grad = {@(x,y) -1.6*x+0.4, @(x,y) 1};
@@ -811,7 +815,7 @@ elseif InterfaceId == 40    % two squares
     [~,loops2] = geo_line_through_pointarray({P1,P5,P6,P7,P1});
     loops = [loops1,loops2];
 
-%     % interesting alternative parametric description (Ginkgo does also not run with this one)
+%     % interesting alternative parametric description (QUGaR does also not run with this one)
 %     P2 = [0,0.5];
 %     P3 = [0,0];
 %     P4 = [0.5,0];
@@ -1226,7 +1230,7 @@ elseif InterfaceId == 46    % two intersected circles
     [phi1,gradPhi1,loop_curve1] = geo_circle(R,C1);
     implCell1 = {LevelSetFunctionAndGradient(phi1,gradPhi1)};
     
-    if d~=0 % d=0, where the two circles would be identical, is treated separately because Ginkgo would fail for two identical circles
+    if d~=0 % d=0, where the two circles would be identical, is treated separately because QUGaR would fail for two identical circles
         [phi2,gradPhi2,~] = geo_circle(R,C2);
         implCell2 = {LevelSetFunctionAndGradient(phi2,gradPhi2)};
 

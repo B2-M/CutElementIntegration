@@ -140,7 +140,6 @@ classdef StructureValidationTests < matlab.unittest.TestCase
             expectedCategories = {
                 'AreaComputation2D'
                 'VolumeComputation3D'
-                'InterfaceComputation2D'
             };
             
             foundCategories = {exampleDirs.name};

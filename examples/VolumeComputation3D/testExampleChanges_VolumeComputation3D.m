@@ -52,8 +52,82 @@ classdef testExampleChanges_VolumeComputation3D < TestCases3D
             checkTestCoverage( testCase );
         end
 
+        function names = checkForChanges_example_ellipsoid_1( testCase )
 
+            % set number of refinements 
+            n_refs_min = 1;
+            n_refs_max = 2;
+            if strcmp( testCase.testType , 'unitTest' )
+                n_refs_max = n_refs_min;
+            end
 
+            % set up integrators
+            n_quad_pts = 3;         % Number of quadrature point per element in each direction
+            reparam_degree = 3;     % Degree of the reparametrisation of cut elements
+            objInt = getTestIntegrators(testCase, n_quad_pts, reparam_degree); 
+            if isunix
+                % exclude EduFEM since reference solution was computed on pc
+                % and unix result differ from pc version
+                bInclude = true(length(objInt),1);
+                for i = 1 : length( objInt )
+                    if strcmpi(objInt{i}.Name,'EduFEM')
+                        bInclude(i)=false;
+                    end
+                end
+                objInt = objInt( bInclude );
+            end
+
+            % run example
+            [~,~,names] = example_ellipsoid_1(n_refs_min,n_refs_max,objInt,testCase.plot_settings{:});
+
+            % compare with reference
+            checkForChanges( testCase, names );
+
+        end 
+
+        function names = checkForChanges_example_torus_1( testCase )
+
+            % set number of refinements 
+            n_refs_min = 1;
+            n_refs_max = 2;
+            if strcmp( testCase.testType , 'unitTest' )
+                n_refs_max = n_refs_min;
+            end
+
+            % set up integrators
+            n_quad_pts = 1;         % Number of quadrature point per element in each direction
+            reparam_degree = 1;     % Degree of the reparametrisation of cut elements
+            objInt = getTestIntegrators(testCase, n_quad_pts, reparam_degree); 
+
+            % run example
+            [~,~,names] = example_torus_1(n_refs_min,n_refs_max,objInt,testCase.plot_settings{:});
+
+            % compare with reference
+            checkForChanges( testCase, names );
+
+        end 
+
+        function names = checkForChanges_example_cylinder_1( testCase )
+
+            % set number of refinements 
+            n_refs_min = 1;
+            n_refs_max = 2;
+            if strcmp( testCase.testType , 'unitTest' )
+                n_refs_max = n_refs_min;
+            end
+
+            % set up integrators
+            n_quad_pts = 3;         % Number of quadrature point per element in each direction
+            reparam_degree = 3;     % Degree of the reparametrisation of cut elements
+            objInt = getTestIntegrators(testCase, n_quad_pts, reparam_degree); 
+
+            % run example
+            [~,~,names] = example_cylinder_1(n_refs_min,n_refs_max,objInt,testCase.plot_settings{:});
+
+            % compare with reference
+            checkForChanges( testCase, names );
+
+        end 
 
         function names = checkForChanges_example_cube_1( testCase )
 

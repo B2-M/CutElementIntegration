@@ -43,7 +43,8 @@ elseif strcmp(className,'QuahogIntegrator')
     else
         objIntegrator = feval(className,n_quad_pts,n_quad_pts_green);
     end
-elseif strcmp(className,'GinkgoIntegrator') || strcmp(className,'AlgoimIntegrator')
+elseif strcmp(className,'QUGaRIntegrator') || strcmp(className,'AlgoimIntegrator') || ...
+        strcmp(className,'BoSSSIntegrator') || strcmp(className,'NgsxfemIntegrator')
     if isempty(reparam_degree)
         objIntegrator = feval(className,n_quad_pts);
     else

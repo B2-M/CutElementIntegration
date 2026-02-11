@@ -6,10 +6,14 @@
    1. [Git](#git)
    2. [.zip](#zip)
    3. [Matlab](#matlab)
+      1. [Requirements](#requirements)
+      2. [Setup](#setup)
+      3. [Exploring Examples](#exploring-examples)
 4. [Integrator testing](#integrator-testing)
    1. [Running regression tests](#running-regression-tests)
-   2. [Updating reference solutions](#updating-reference-solutions)
-   3. [Test structure](#test-structure)
+   2. [Test structure](#test-structure)
+   3. [Updating reference solutions](#updating-reference-solutions)
+      1. [Platform-specific reference solutions](#platform-specific-reference-solutions)
 5. [Framework development](#framework-development)
    1. [Framework unit tests](#framework-unit-tests)
    2. [Include an additional code](#include-an-additional-code)
@@ -22,26 +26,32 @@
 ## Description
 
 This repo provides benchmark test for routines that integrate over elements cut by an arbitrary interface. The interface may be defined implicitly by a level set function or parametrically by a NURBS curve.
-The included codes for integrating over cut elements are either provided as a static version in a folder or as a submodule. A list of provided codes can be seen in ``release_files.txt``, with a respective ``README*.md`` file in the folder ``\codes``.
+The included codes for integrating over cut elements are either provided as a static version in a folder or as a submodule. A list of provided codes can be seen in the corresponding ``README*.md`` file in the folder ``\codes``.
 The technical details to set up the framework are shown in [Getting started](#getting-started)
+
+## Publications
+
+This framework is described in the following publication:
+
+T. Toprak, M. Loibl, G. H. Teixeira, I. Shiskina, C. Miao, J. Kiendl, B. Marussig, and F. Kummer, "Employing Continuous Integration inspired workflows for benchmarking of scientific software - A use case on numerical cut element quadrature," *Advances in Engineering Software*, vol. 213, 2026, doi: [10.1016/j.advengsoft.2025.104087](https://doi.org/10.1016/j.advengsoft.2025.104087).
 
 # Getting started
 
 Two ways to obtain the code are distinguished in the following:
-* Clone with git from github (public) or gitlab (private)
-* Download .zip from github or zenodo
+* Clone with git from GitHub
+* Download .zip from GitHub or Zenodo
 
 ## Git
 
 Note for Windows users: getting the submodules may fail when the passphrase is not remembered. Try running start-ssh-agent before calling the following lines in the same terminal.
 
-If you have access to the public repository, clone with:
+Clone the repository with:
 
 ```
 git clone git@github.com:B2-M/CutElementIntegration.git
 ```
 
-In order to initialize all codes properly, it is recommended to run ``init_submodules.sh``. In order to execute this file, double-click on Windows or use ``run init_submodules.sh`` on Linux. Afterwards, the intialized submodules can be updated recursively with Git.
+In order to initialize all codes properly, it is recommended to run ``init_submodules.sh``. In order to execute this file, double-click on Windows or use ``run init_submodules.sh`` on Linux. Afterwards, the initialized submodules can be updated recursively with Git.
 
 An alternative way of initialization is to use the following git command:
 ```
@@ -89,6 +99,12 @@ Not all integrators may be accessible on your system. `StartUpCall` will report 
 Having only a subset of integrators available is **normal and expected**. The framework will work with any accessible integrators. Check individual README files in `codes/[integrator]/` for specific setup requirements.
 
 See the ``\codes`` folder for adding integration tools and the ``\examples`` folder for setting up test cases.
+
+**Note on Python compatibility:**
+Some integrators run with Python which has to be called from Matlab. In an earlier development stage of this code, it was found to be useful to change the execution mode of the Python environment run by Matlab. In case, that you encounter problems with the Matlab-Python interaction, try to run the following command in Matlab upon start (see also https://de.mathworks.com/matlabcentral/answers/486171-how-do-i-troubleshoot-a-matlab-crash-when-trying-to-use-the-python-interface?s_cid=pl_crsh_an):
+```
+pyenv("ExecutionMode","OutOfProcess");
+```
 
 ### Exploring Examples
 
@@ -154,7 +170,7 @@ updateExampleTestsResultsRef('Fcmlab', 'testExampleChanges_InterfaceComputation2
 **Update a specific test case within a test suite:**
 ```matlab
 updateExampleTestsResultsRef('Fcmlab', 'testExampleChanges_InterfaceComputation2D', ...
-    'checkForChanges_example_circle_1')
+    "checkForChanges_example_circle_1")   % it is important that the last entry is a string
 ```
 
 **Preserve existing reference solutions (do not replace):**
@@ -221,11 +237,11 @@ The included codes for integrating over cut elements are collected in the ``code
 
 # License
 
-The test environment the 3-Clause BSD License (https://opensource.org/license/bsd-3-clause). 
+The test environment the 3-Clause BSD License (https://opensource.org/license/bsd-3-clause).
 
 Further, the test environment relies on the Octave NURBS package under the GNU General Public License.
 
 For the licenses of the integration codes, see the license files in the corresponding subfolders.
 
 # Acknowledgments
-The work is supported by the joint DFG/FWF Collaborative Research Centre CREATOR (DFG: Project-ID 492661287/TRR 361; FWF: 10.55776/F90) at TU Darmstadt, TU Graz and JKU Linz. 
+The work is supported by the joint DFG/FWF Collaborative Research Centre CREATOR (DFG: Project-ID 492661287/TRR 361; FWF: 10.55776/F90) at TU Darmstadt, TU Graz and JKU Linz.

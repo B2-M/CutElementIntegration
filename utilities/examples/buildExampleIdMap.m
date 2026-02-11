@@ -341,7 +341,11 @@ function [interfaceId, lineNumber] = extractInterfaceId(dimension, testCaseId)
 
     % Read file
     fileContent = fileread(testCaseFile);
-    lines = strsplit(fileContent, '\n');
+    % Normalize line ending (Windows: \r\n, Linux: \n)
+    fileContent = strrep(fileContent, sprintf('\r\n'), newline);
+    fileContent = strrep(fileContent, sprintf('\r'), newline);
+    lines = strsplit(fileContent, newline, "CollapseDelimiters", false);
+    
 
     % Find the testCaseId block
     % Pattern: if testCaseId == <number> or elseif testCaseId == <number>
@@ -421,7 +425,10 @@ function lineNumber = extractInterfaceLine(dimension, interfaceId)
 
     % Read file
     fileContent = fileread(interfaceFile);
-    lines = strsplit(fileContent, '\n');
+    % Normalize line ending (Windows: \r\n, Linux: \n)
+    fileContent = strrep(fileContent, sprintf('\r\n'), newline);
+    fileContent = strrep(fileContent, sprintf('\r'), newline);
+    lines = strsplit(fileContent, newline, "CollapseDelimiters", false);
 
     % Find the interfaceId block
     % Note: No $ anchor at end to allow inline comments like "elseif InterfaceId == 43 % comment"

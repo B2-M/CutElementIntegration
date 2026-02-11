@@ -57,7 +57,7 @@ function resultsFolders = findResultsFolders()
     % Get paths to result folders
     resultsFolders = cell(size(subFolderNames));
     for i = 1 : length(resultsFolders)
-        resultsFolders{i} = [folderPath subFolderNames{i} '/results/'];
+        resultsFolders{i} = fullfile(folderPath, subFolderNames{i}, 'results');
     end
 
 end

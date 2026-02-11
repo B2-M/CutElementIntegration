@@ -38,23 +38,12 @@
 function updateExampleTestsResultsRef( integrator_name, testsuite_name, testcase_name, ...
     bReplaceExistingResultsRef )
 
-% example call:  
-% updateExampleTestsResultsRef('Ginkgo','testExampleChanges_InterfaceComputation2D', ...
+% example call:
+% updateExampleTestsResultsRef('QUGaR','testExampleChanges_InterfaceComputation2D', ...
 %     ["checkForChanges_example_triangle_1","checkForChanges_example_testsuite_unibw"],false)
 
 % check input
-if strcmp(integrator_name,'Algoim') || ...
-        strcmp(integrator_name,'BoSSS') || ...        
-        strcmp(integrator_name,'EduFEM') || ...
-        strcmp(integrator_name,'Fcmlab') || ...
-        strcmp(integrator_name,'Ginkgo') || ...
-        strcmp(integrator_name,'Gridap') || ...
-        strcmp(integrator_name,'Mlhp') || ...
-        strcmp(integrator_name,'Ngsxfem') || ...
-        strcmp(integrator_name,'Nutils') || ...
-        strcmp(integrator_name,'Quahog') || ...
-        strcmp(integrator_name,'QuahogPE')|| ...
-        strcmp(integrator_name,'Queso')
+if ismember(integrator_name, getAllIntegratorNames())
     % ok
 else
     error("Integator %s is not known!", integrator_name)
@@ -79,6 +68,11 @@ else
     testcase_name = 'all';
 end
 
+bTakeAllExamples = false;
+if ischar(testcase_name) && strcmp(testcase_name,'all') 
+    bTakeAllExamples = true;
+end
+
 if nargin < 4
     bReplaceExistingResultsRef = true;
 end
@@ -96,7 +90,7 @@ for i = 1:length(testsuite_names)
     ids_examples = find(contains(m, 'checkForChanges_'));    
     for j = 1:length(ids_examples)
         example_name = m{ids_examples(j)};
-        if strcmp(testcase_name,'all') || any(example_name==testcase_name)
+        if bTakeAllExamples || any(example_name==testcase_name)
             names = feval(example_name,ts);
             % check if testCase consists of several examples
             if iscell(names)

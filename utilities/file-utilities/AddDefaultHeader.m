@@ -43,7 +43,7 @@ function AddDefaultHeader(folderRelativePath)
 % Define the folder path
 folderPath = fullfile(pwd,folderRelativePath);
 fileExtension = '*.m'; % Change this to match the type of files you want to process
-headerFilePath = '.\utils\doc\defaultHeader.txt'; % Path to the header file
+headerFilePath = './utilities/file-utilities/defaultHeader.txt'; % Path to the header file
 
 % Read header text from file
 fid = fopen(headerFilePath, 'r');

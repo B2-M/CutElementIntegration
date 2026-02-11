@@ -39,18 +39,16 @@ function StartUpCall
 
 % add key paths
 addpath('./codes');
+addpath('./codes/gridap');
+addpath('./codes/mlhp');
+addpath('./codes/ngsxfem');
+addpath('./codes/nutils');
 addpath('./framework-classes');
 addpath(genpath('./examples'));
 addpath(genpath('./nurbs-1.4.3'));
 addpath(genpath('./publications'));
-addpath(genpath('./utilities')); 
+addpath(genpath('./utilities'));
 
-% Set execution mode for Python processes.
-% Is remembered for each instance, but still is explicitly stated here to
-% ease code usage on different computers. Reason for this choice from
-% documentation: "Working with Python libraries that require a different
-% version of a third-party library also required by MATLAB."
-pyenv("ExecutionMode","OutOfProcess");
 
 fprintf('\n=== Initializing CutElementIntegration Framework ===\n');
 

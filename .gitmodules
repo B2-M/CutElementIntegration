@@ -1,3 +1,15 @@
 [submodule "codes/fcmlab/fcmlab"]
 	path = codes/fcmlab/fcmlab
 	url = https://gitlab.lrz.de/cie_sam_public/fcmlab.git
+[submodule "codes/quahog/quahog"]
+	path = codes/quahog/quahog
+	url = https://github.com/davidgunderman/QuaHOG.git
+[submodule "codes/queso/QuESo"]
+	path = codes/queso/QuESo
+	url = https://github.com/manuelmessmer/QuESo.git
+[submodule "codes/bosss/repository"]
+	path = codes/bosss/repository
+	url = https://github.com/FDYdarmstadt/BoSSS.git
+[submodule "codes/algoim/matlabalgoimwrapper"]
+	path = codes/algoim/matlabalgoimwrapper
+	url = ../matlabalgoimwrapper

@@ -36,12 +36,14 @@
 % SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 function plot_error_h_refinement_ref_results( testFolderName, testCaseId, ...
-    resultFolderName)
+    resultFolderName,integratorName)
 % compares the results of all reference solutions of a specific test
 % example
 
 %% example call:
 % plot_error_h_refinement_ref_results('AreaComputation2D',1)
+% plot_error_h_refinement_ref_results('AreaComputation2D',1,'results')
+% plot_error_h_refinement_ref_results('AreaComputation2D',1,'results_ref','Algoim')
 
 % check input
 testsDomainIntegral = { ...
@@ -71,6 +73,11 @@ file_path = ['./examples/' testFolderName '/' resultFolderName '/'];
 file_name_timeless = ['run' testFolderName '_tC_' num2str(testCaseId) '_'];
 files_in_folder = dir(file_path);
 index = find(contains({files_in_folder.name}, file_name_timeless));
+if nargin == 4
+    indexB = find(contains({files_in_folder.name}, integratorName));
+    index = index( ismember(index,indexB) );
+end
+
 
 % plot convergence curves
 error_type = 'relError';

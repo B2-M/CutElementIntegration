@@ -11,7 +11,3 @@ https://www.sciencedirect.com/science/article/abs/pii/S0965997814000684
 
 Interface type: implicit
 Operating system: Windows
-
-## Installation
-
-The code is included as submodule. Since the FCMLab is a pure Matlab-Code, no further installation steps are needed after the repository is downloaded.

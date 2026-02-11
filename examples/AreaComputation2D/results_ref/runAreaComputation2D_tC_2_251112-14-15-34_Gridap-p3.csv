@@ -1,0 +1,4 @@
+relError,absError,h,nbQuadptsTrimmedElems,nbQuadptsNonTrimmedElems,IntegrationTime_sec_
+1e-15,1e-15,0.7225,48,0,7.0557417
+1e-15,1e-15,0.180625,88,0,7.7940726
+1e-15,1e-15,0.04515625,144,4,11.0824016

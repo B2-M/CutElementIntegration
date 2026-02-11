@@ -37,7 +37,8 @@
 
 function [testFolderNames,folderPath] = getTestFolderNames()
 
-    folderPath = './examples/';
+     % Base examples folder (system-independent)
+    folderPath = fullfile('.', 'examples');
     
     folderContents  = dir(folderPath);
 
@@ -53,7 +54,7 @@ function [testFolderNames,folderPath] = getTestFolderNames()
     count = 0;
     testFolderNames = cell(size(subFolderNames));
     for i = 1 : length(subFolderNames)
-        refFolderPath = [folderPath subFolderNames{i} '/results_ref'];
+        refFolderPath = fullfile(folderPath, subFolderNames{i}, 'results_ref');
         if exist(refFolderPath, 'dir') == 7
             count = count + 1;
             testFolderNames{count} = subFolderNames{i};

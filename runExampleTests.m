@@ -74,8 +74,8 @@ function runExampleTests(testType, testNameCell, testPlots, integratorName)
 % runExampleTests( 'convergenceStudy', {'testExampleChanges_AreaComputation2D'} )
 % runExampleTests( 'unitTest', {'testExampleChanges_AreaComputation2D','testExampleChanges_InterfaceComputation2D'} )
 % runExampleTests( 'unitTest', {'testExampleChanges_AreaComputation2D'}, 'on' )
-% runExampleTests( 'convergenceStudy', {'testExampleChanges_AreaComputation2D'}, 'error', 'Ginkgo' )
-% runExampleTests( 'unitTest', 'all', 'off', 'Ginkgo' )
+% runExampleTests( 'convergenceStudy', {'testExampleChanges_AreaComputation2D'}, 'error', 'QUGaR' )
+% runExampleTests( 'unitTest', 'all', 'off', 'QUGaR' )
 
 % Add helpers path for helper functions
 addpath('./examples/utils/unittest/helpers');

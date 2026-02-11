@@ -37,7 +37,7 @@
 
 % set number of refinements and steps
 n_refs = 4;
-n_points = 100;
+n_points = 1000;
 dsteps = linspace(0,0.55,n_points+1);
 
 % set up integrators

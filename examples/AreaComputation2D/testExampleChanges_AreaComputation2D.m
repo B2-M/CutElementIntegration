@@ -74,9 +74,210 @@ classdef testExampleChanges_AreaComputation2D < TestCases2D
 
         end
 
+        function names = checkForChanges_example_ellipse( testCase )
+
+            % set number of refinements 
+            n_refs_min = 0;
+            n_refs_max = 2;
+            if strcmp( testCase.testType , 'unitTest' )
+                n_refs_max = n_refs_min;
+            end
+
+            % set up integrators
+            n_quad_pts = 3;         % Number of quadrature point per element in each direction
+            reparam_degree = 3;     % Degree of the reparametrisation of cut elements
+            objInt = getTestIntegrators(testCase, n_quad_pts, reparam_degree);         
+
+            % run example
+            [~,~,names] = example_ellipse(n_refs_min,n_refs_max,objInt,testCase.plot_settings{:});
+
+            % compare with reference
+      
+            checkForChanges( testCase, names );
+
+        end
+
+        function names = checkForChanges_example_foliumloop_1( testCase )
+
+            % set number of refinements 
+            n_refs_min = 2;
+            n_refs_max = 5;
+            if strcmp( testCase.testType , 'unitTest' )
+                n_refs_max = n_refs_min;
+            end
+
+            % set up integrators
+            n_quad_pts = 3;         % Number of quadrature point per element in each direction
+            reparam_degree = 3;     % Degree of the reparametrisation of cut elements
+            objInt = getTestIntegrators(testCase, n_quad_pts, reparam_degree);
+
+            % run example
+            [~,~,names] = example_foliumloop_1(n_refs_min,n_refs_max,objInt,testCase.plot_settings{:});
+
+            % compare with reference
+            checkForChanges( testCase, names );
+
+        end
+
+        function names = checkForChanges_example_inner_knot( testCase )
+
+            % set number of refinements 
+            n_refs_min = 1;
+            n_refs_max = 3;
+            if strcmp( testCase.testType , 'unitTest' )
+                n_refs_max = n_refs_min;
+            end
+
+            % set up integrators
+            n_quad_pts = 3;         % Number of quadrature point per element in each direction
+            reparam_degree = 3;     % Degree of the reparametrisation of cut elements
+            objInt = getTestIntegrators(testCase, n_quad_pts, reparam_degree);
+
+            % run example
+            [~,~,names] = example_inner_knot(n_refs_min,n_refs_max,objInt,testCase.plot_settings{:});
+
+            % compare with reference
+            checkForChanges( testCase, names );
+
+        end
+
+        function names = checkForChanges_example_multiple_connected_curves( testCase )
+
+            % set number of refinements 
+            n_refs_min = 1;
+            n_refs_max = 3;
+            if strcmp( testCase.testType , 'unitTest' )
+                n_refs_max = n_refs_min;
+            end
+
+            % set up integrators
+            n_quad_pts = 3;         % Number of quadrature point per element in each direction
+            reparam_degree = 3;     % Degree of the reparametrisation of cut elements
+            objInt = getTestIntegrators(testCase, n_quad_pts, reparam_degree);
+
+            % run example
+            [~,~,names] = example_multiple_connected_curves(n_refs_min,n_refs_max,objInt,testCase.plot_settings{:});
+
+            % compare with reference
+            checkForChanges( testCase, names );
+
+        end
+
+        function names = checkForChanges_example_punched_plate( testCase )
+
+            % set number of refinements 
+            n_refs_min = 1;
+            n_refs_max = 4;
+            if strcmp( testCase.testType , 'unitTest' )
+                n_refs_max = n_refs_min;
+            end
+
+            % set up integrators
+            n_quad_pts = 3;         % Number of quadrature point per element in each direction
+            reparam_degree = 3;     % Degree of the reparametrisation of cut elements
+            objInt = getTestIntegrators(testCase, n_quad_pts, reparam_degree);
+
+            % run example
+            [~,~,names] = example_punched_plate(n_refs_min,n_refs_max,objInt,testCase.plot_settings{:});
+
+            % compare with reference
+            checkForChanges( testCase, names );
+
+        end
+
+        function names = checkForChanges_example_saye2022_sec44( testCase )
+
+            % set number of refinements 
+            n_refs_min = 0;
+            n_refs_max = 0;
+            if strcmp( testCase.testType , 'unitTest' )
+                n_refs_max = n_refs_min;
+            end
+
+            % set up integrators
+            n_quad_pts = 3;         % Number of quadrature point per element in each direction
+            reparam_degree = 5;     % Degree of the reparametrisation of cut elements
+            objInt = getTestIntegrators(testCase, n_quad_pts, reparam_degree);
+
+            % run example
+            [~,~,names] = example_saye2022_sec44(n_refs_min,n_refs_max,objInt,testCase.plot_settings{:});
+
+            % compare with reference
+            checkForChanges( testCase, names );
+
+        end
+
+        function names = checkForChanges_example_semicircle_1( testCase )
+
+            % set number of refinements 
+            n_refs_min = 1;
+            n_refs_max = 3;
+            if strcmp( testCase.testType , 'unitTest' )
+                n_refs_max = n_refs_min;
+            end
+
+            % set up integrators
+            n_quad_pts = 3;         % Number of quadrature point per element in each direction
+            reparam_degree = 3;     % Degree of the reparametrisation of cut elements
+            objInt = getTestIntegrators(testCase, n_quad_pts, reparam_degree);
+
+            % run example
+            [~,~,names] = example_semicircle_1(n_refs_min,n_refs_max,objInt,testCase.plot_settings{:});
+
+            % compare with reference
+            checkForChanges( testCase, names );
+
+        end
+
+        function names = checkForChanges_example_testsuite_unibw( testCase )
+
+            % set number of refinements 
+            n_refs_min = 0;
+            n_refs_max = 0;
+            if strcmp( testCase.testType , 'unitTest' )
+                n_refs_max = n_refs_min;
+            end
+
+            % set up integrators
+            n_quad_pts = ones(26,1)*3;         % Number of quadrature point per element in each direction
+            reparam_degree = ones(26,1)*5;     % Degree of the reparametrisation of cut elements
+            n_quad_pts_green = ones(26,1)*5;
+            objInt = cell(26,1);
+            for i=1:26
+                objInt{i} = getTestIntegrators(testCase, n_quad_pts(i), reparam_degree(i), ...
+                    n_quad_pts_green(i));
+            end
+            % run example
+            [~,~,names] = example_testsuite_unibw(n_refs_min,n_refs_max,objInt, ...
+                testCase.plot_settings{:});
+
+            % compare with reference
+            checkForChanges( testCase, names );
+
+        end
+
+        function names = checkForChanges_example_triangle_1( testCase )
+
+            % set number of refinements 
+            n_refs_min = 1;
+            n_refs_max = 3;
+            if strcmp( testCase.testType , 'unitTest' )
+                n_refs_max = n_refs_min;
+            end
+
+            % set up integrators
+            n_quad_pts = 2;         % Number of quadrature point per element in each direction
+            reparam_degree = 2;     % Degree of the reparametrisation of cut elements
+            objInt = getTestIntegrators(testCase, n_quad_pts, reparam_degree);
+
+            % run example
+            [~,~,names] = example_triangle_1(n_refs_min,n_refs_max,objInt,testCase.plot_settings{:});
+
+            % compare with reference
+            checkForChanges( testCase, names );
+
+        end
+
     end
 
 end
-
-
-
