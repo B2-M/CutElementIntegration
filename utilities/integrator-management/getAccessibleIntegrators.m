@@ -57,6 +57,7 @@ arguments
     add_var.n_quad_pts_green = 3
     add_var.reparam_degree = 3
     add_var.SpaceTreeDepth = 3
+    add_var.ndivisions = 8
 end
 %---------------------------------------------------------
 

@@ -44,6 +44,9 @@ classdef NutilsIntegrator < AbstractIntegrator
         quad_degree         % Degree of the quadrature rule
         SpaceTreeDepth = 3  % number of subdivision levels of Quadtree/Octree, 
         % additional tessellation on lowest level
+        ndivisions = 8  % defines the number of intervals (2^ndivisions) to 
+        % be considered for the computation/rounding of the edge intersections
+        % (https://github.com/evalf/nutils/discussions/920#discussioncomment-13693233)
     end
 
     methods(Static)
@@ -107,10 +110,13 @@ classdef NutilsIntegrator < AbstractIntegrator
 
     methods
 
-        function obj = NutilsIntegrator(n_quad_pts, SpaceTreeDepth )
+        function obj = NutilsIntegrator(n_quad_pts, SpaceTreeDepth, ndivisions)
             obj = obj@AbstractIntegrator(n_quad_pts);
-            if nargin==2 && ~isempty(SpaceTreeDepth)
+            if nargin>=2 && ~isempty(SpaceTreeDepth)
                 obj.SpaceTreeDepth = SpaceTreeDepth;
+            end
+            if nargin==3 && ~isempty(ndivisions)
+                obj.ndivisions = ndivisions;
             end
             obj.quad_degree = 2*n_quad_pts-1;
             obj.addIntegratorPaths;
@@ -139,7 +145,7 @@ classdef NutilsIntegrator < AbstractIntegrator
             
             [measure,QP,weights] = pyrunfile("nutils_main.py",["measure","QP","weights"],domain=domain, ...
                 maxrefine=int32(objNutils.SpaceTreeDepth),degree=int32(objNutils.quad_degree), ...
-                interfaces=phi_strings,integral_type='bulk');
+                interfaces=phi_strings,integral_type='bulk',ndivisions=int32(objNutils.ndivisions));
 
             % Place all points in one element because it was not possible so 
             % far to order the quadrature points elementwise from this code.
@@ -177,7 +183,7 @@ classdef NutilsIntegrator < AbstractIntegrator
             
             [measure,QP,weights] = pyrunfile("nutils_main.py",["measure","QP","weights"],domain=domain, ...
                 maxrefine=int32(objNutils.SpaceTreeDepth),degree=int32(objNutils.quad_degree), ...
-                interfaces=phi_strings,integral_type='bulk');
+                interfaces=phi_strings,integral_type='bulk',ndivisions=int32(objNutils.ndivisions));
 
             % Place all points in one element because it was not possible so 
             % far to order the quadrature points elementwise from this code.
@@ -215,7 +221,7 @@ classdef NutilsIntegrator < AbstractIntegrator
             
             [measure,QP,weights] = pyrunfile("nutils_main.py",["measure","QP","weights"],domain=domain, ...
                 maxrefine=int32(objNutils.SpaceTreeDepth),degree=int32(objNutils.quad_degree), ...
-                interfaces=phi_strings,integral_type='interface');
+                interfaces=phi_strings,integral_type='interface',ndivisions=int32(objNutils.ndivisions));
             
             % Place all points in one element because it was not possible so 
             % far to order the quadrature points elementwise from this code.
@@ -245,7 +251,7 @@ classdef NutilsIntegrator < AbstractIntegrator
             
             [measure,QP,weights] = pyrunfile("nutils_main.py",["measure","QP","weights"],domain=domain, ...
                 maxrefine=int32(objNutils.SpaceTreeDepth),degree=int32(objNutils.quad_degree), ...
-                interfaces=phi_strings,integral_type='interface');
+                interfaces=phi_strings,integral_type='interface',ndivisions=int32(objNutils.ndivisions));
             
             % Place all points in one element because it was not possible so 
             % far to order the quadrature points elementwise from this code.
@@ -275,7 +281,7 @@ classdef NutilsIntegrator < AbstractIntegrator
             
             [measure,QP,weights] = pyrunfile("nutils_main.py",["measure","QP","weights"],domain=domain, ...
                 maxrefine=int32(objNutils.SpaceTreeDepth),degree=int32(objNutils.quad_degree), ...
-                interfaces=phi_strings,integral_type='flux');
+                interfaces=phi_strings,integral_type='flux',ndivisions=int32(objNutils.ndivisions));
             
             % Place all points in one element because it was not possible so 
             % far to order the quadrature points elementwise from this code.
@@ -305,7 +311,7 @@ classdef NutilsIntegrator < AbstractIntegrator
             
             [measure,QP,weights] = pyrunfile("nutils_main.py",["measure","QP","weights"],domain=domain, ...
                 maxrefine=int32(objNutils.SpaceTreeDepth),degree=int32(objNutils.quad_degree), ...
-                interfaces=phi_strings,integral_type='flux');
+                interfaces=phi_strings,integral_type='flux',ndivisions=int32(objNutils.ndivisions));
 
             % Place all points in one element because it was not possible so 
             % far to order the quadrature points elementwise from this code.

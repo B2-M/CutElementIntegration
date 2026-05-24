@@ -766,7 +766,7 @@ elseif InterfaceId == 37 % moving, cusp
 
 elseif InterfaceId == 38 % two parabolas with multiple intersections of one element
 
-    y_shift = 0.0625;    % shift existing geoemtry such that it can be movement 
+    y_shift = 0.0625;    % shift existing geoemtry such that it can be moved
     % by a complete element length for 1/h=4
 
     P3 = [0.451656188679616,   0.500000000000000+y_shift-d];
@@ -1263,6 +1263,26 @@ elseif InterfaceId == 46    % two intersected circles
 
     sizeInterface = 2*pi*2*alpha;
     sizeInsideDomain =  2*R^2/2*(2*alpha-sin(2*alpha)); % twice the area of the circular segment
+
+elseif InterfaceId == 47 % geometry from UniBw Munich test case 4 flipped around x=0.5
+
+    x_sym = 0.5;
+
+    P1 = [2*x_sym-0.8,0]; P2 = [2*x_sym-0.95,0.5]; P3 = [2*x_sym-0.5,1];
+    P4 = [2*x_sym-0,1]; P5 = [2*x_sym-0,0];
+    
+    [implCell_lines,loops_lines] = geo_line_through_pointarray({P1,P5,P4,P3});
+
+    phi = @(x,y) 0.6*y.^2-0.3*y+2*x_sym-x-0.8;   % polynomial p=2
+    grad = {@(x,y) -1, @(x,y) 1.2*y-0.3};
+    implCell_curve = LevelSetFunctionAndGradient(phi,grad);
+    curve = nrbmak([P3(1),P2(1),P1(1);P3(2),P2(2),P1(2)], [0 0 0 1 1 1]);
+    loop_curve = struct('curve',curve,'label',4);
+    implCell = [implCell_lines {implCell_curve}];
+    loops = {[loops_lines{:},loop_curve]};
+
+    sizeInterface = 3.395239726133398;
+    sizeInsideDomain = 0.75;
 
 else
     error("getInterfaceCase2D Interface case %i not known!", InterfaceId )

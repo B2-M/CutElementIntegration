@@ -106,7 +106,7 @@ classdef InfrastructureTests < matlab.unittest.TestCase
             % Expected core test suites (should exist)
             expectedSuites = {
                 'testExampleChanges_AreaComputation2D'
-                'testExampleChanges_VolumeComputation3D' 
+                'testExampleChanges_VolumeComputation3D'
             };
             
             for i = 1:length(expectedSuites)

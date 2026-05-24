@@ -9,8 +9,8 @@ clc
 %% Test BoSSS External Binding
 dotnetenv("core"); %change the .NET environment to the core (which is cross platform)
 
-pstr = fullfile(pwd + "\codes\bosss\repository\src\L4-application\MatlabCutCellQuadInterface\bin\Release\net6.0\BoSSS.Application.MatlabCutCellQuadInterface.dll");
-pstr2 = fullfile(pwd + "\codes\bosss\repository\src\L4-application\MatlabCutCellQuadInterface\bin\Release\net6.0\BoSSS.Foundation.XDG.dll");
+pstr = fullfile(pwd + "\codes\bosss\repository\src\L4-application\MatlabCutCellQuadInterface\bin\Release\net8.0\BoSSS.Application.MatlabCutCellQuadInterface.dll");
+pstr2 = fullfile(pwd + "\codes\bosss\repository\src\L4-application\MatlabCutCellQuadInterface\bin\Release\net8.0\BoSSS.Foundation.XDG.dll");
 
 NET.addAssembly(pstr);
 

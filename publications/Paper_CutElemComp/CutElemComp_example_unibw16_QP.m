@@ -53,7 +53,6 @@ n_refs_max = 1;
 reparam_degree = 5;     % Degree of the reparametrisation of cut elements
 SpaceTreeDepth = 3;
 problem_dimension = 2;  % Spatial dimension of the background mesh
-n_quad_pts_green = 5;
 
 %% define integrand
 syms x y
@@ -65,10 +64,11 @@ add_settings = {'PlotError','off','PlotPoints','off','integrand',integrand};
 
 %% run test case
 n_quad_pts = 3; % all with the same setting because of visualization purposes
+n_quad_pts_green = n_quad_pts;
 objInt = getAccessibleIntegrators(n_quad_pts,problem_dimension, ...
     'reparam_degree',reparam_degree,'SpaceTreeDepth',SpaceTreeDepth, ...
     'n_quad_pts_green',n_quad_pts_green);
-% objInt = selectIntegrator(objInt,"QuahogIntegrator")
+objInt = selectIntegrator(objInt,"QuahogIntegrator")
 [out_area,out_objQuadData,names] = example_unibw16(...
     n_refs_min,n_refs_max,objInt,add_settings{:});
 

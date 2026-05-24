@@ -34,23 +34,37 @@
 % LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
 % NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
 % SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
-function print_figure(figname,file_format,is_quality_high)
-    if strcmp(file_format,'pdf')
-        if is_quality_high
-            % print(gcf,'-r1000','-dpdf',figname);
-            exportgraphics(gcf,figname,'ContentType','vector')
-        else
-            print(gcf,'-dpdf',figname);
-        end
-    elseif strcmp(file_format,'svg')
-        if is_quality_high
-            % print(gcf,'-r1000','-dsvg',figname);
-            exportgraphics(gcf,figname,'ContentType','vector')
-        else
-            print(gcf,'-dsvg',figname);
-        end
-    else
-        error('Requeste "file_format" not available.')
-    end
-end
+
+%% Purpose
+% Robustness test 3D
+% Used for Queso where we have a stl as input and, therefore, we move the
+% background mesh instead of the geometry to be able to work with a single
+% stl file.
+
+close all
+clear
+clc
+
+%% set up integrators
+reparam_degree = 2;     % Degree of the reparametrisation of cut elements
+problem_dimension = 3;  % Spatial dimension of the background mesh
+SpaceTreeDepth = 3;
+
+%% set up steps
+% n_refs = 4;
+% dsteps = linspace(0,0.125,5);
+n_refs = 3;
+dsteps = linspace(0,2*2.2/8,1000);
+
+%% plot setting
+plotting_settings = {'PlotError','off','PlotPoints','off','PlotInterface','off'};
+
+%% run test case
+
+% integrators with linear boundary approximation
+n_quad_pts = 1;         % Number of quadrature point per element in each direction
+objInt = getAccessibleIntegrators(n_quad_pts,problem_dimension, ...
+    'reparam_degree',reparam_degree,'SpaceTreeDepth',SpaceTreeDepth);
+objInt = selectIntegrator(objInt,"QuesoIntegrator")
+[out_volume,out_objQuadData,names] = example_ellipsoid_mesh_moving(...
+    n_refs,dsteps,objInt,plotting_settings{:});

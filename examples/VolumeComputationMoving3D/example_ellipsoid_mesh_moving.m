@@ -3,7 +3,7 @@
 %    Michael Loibl, University of the Bundeswehr Munich
 %    Benjamin Marussig, Graz University of Technology  
 %    Guilherme H. Teixeira, Graz University of Technology  
-%    Muhammed Toprak, Technische Universität Darmstadt
+%    Teoman Toprak, Technische Universität Darmstadt
 %  
 %
 %% Copyright (C) 2025, Graz University of Technology 
@@ -34,23 +34,34 @@
 % LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
 % NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
 % SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
-function print_figure(figname,file_format,is_quality_high)
-    if strcmp(file_format,'pdf')
-        if is_quality_high
-            % print(gcf,'-r1000','-dpdf',figname);
-            exportgraphics(gcf,figname,'ContentType','vector')
-        else
-            print(gcf,'-dpdf',figname);
-        end
-    elseif strcmp(file_format,'svg')
-        if is_quality_high
-            % print(gcf,'-r1000','-dsvg',figname);
-            exportgraphics(gcf,figname,'ContentType','vector')
-        else
-            print(gcf,'-dsvg',figname);
-        end
-    else
-        error('Requeste "file_format" not available.')
-    end
+
+function [out_vol,out_objQuadData,names] = example_ellipsoid_mesh_moving(...
+    n_refs,dsteps,objInt,varargin)
+%% purpose
+% robustness test for 3D codes
+%
+%% set up integrators
+if nargin < 3
+    n_quad_pts = 2;         % Number of quadrature point per element in each direction
+    reparam_degree = 2;     % Degree of the reparametrisation of cut elements
+    problem_dimension = 3;  % Spatial dimension of the background mesh
+    objInt = getAccessibleIntegrators(n_quad_pts,problem_dimension, ...
+        'reparam_degree',reparam_degree);
+    objInt = selectIntegrator(objInt,"FcmlabIntegrator")
+end
+%
+%% set up steps 
+if nargin < 1
+    n_refs = 3;
+    dsteps = [0,0.12,0.124999,0.125];
+end
+%
+%% plot setting
+if isempty(varargin)
+    varargin = {'PlotError','on','PlotPoints','on','PlotInterface','trans'};
+end
+%
+%% run test case
+testCaseId = 7;
+[out_vol,out_objQuadData,names] = runVolumeComputation3D_moving(objInt,testCaseId,n_refs,dsteps,varargin{:});
 end

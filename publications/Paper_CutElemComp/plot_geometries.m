@@ -43,19 +43,21 @@ close all
 
 dim = 3;
 
-file_format = 'pdf';    % pdf or svg
+file_format = 'svg';    % pdf or svg
 is_quality_high = true; % makes it slower, but increases plot quality if poor 
 % (in particular for 3D plots)
 
 % testCaseIds = (9:10);
 % testCaseIds = (9:34);
 % testCaseIds = (1:49);
-testCaseIds = 2;
+testCaseIds = 6;
 
 PaperSize = [6 6];  % Text width of CMAME paper is 19cm
 FigureWidth = 5.5;
 text_fontsize = 7;
-resolution = 40;
+resolution = 20;
+is_plot_mesh = false;
+n_refs = 3;
 
 %% Fixed Code
 folder = [pwd,filesep,'publications',filesep,'Paper_CutElemComp',filesep,'geometries',filesep];
@@ -133,9 +135,15 @@ for testCaseId = testCaseIds
             [0 0 1; 0 0 1; 0 0 1; 0 0 1; 0 0 1])
         hold on
     end
-    % plot([0.4,0],[1,1])
-    % plot([0.4;0;0;0.2],[1;1;0;0])
-    % hold on
+
+    if is_plot_mesh
+        objTest = getTestCase3D( testCaseId );
+        % set background mesh subdivisions
+        objTest.domain.n_refs = n_refs;
+        % plot mesh
+        plot_mesh(objTest.domain);
+        hold on
+    end
     
     % formatting
     title('')
@@ -170,15 +178,17 @@ for testCaseId = testCaseIds
     figname = [folder,'dim',num2str(dim),'_testCaseId',num2str(testCaseId),'.',file_format];
     print_figure(figname,file_format,is_quality_high)
 
-    %------------------------------------
-    % create also top view for 3D geometries
-    view(0,90); xlabel('x');    % X-Y plane
-    % save figure
-    figname = [folder,'dim',num2str(dim),'_testCaseId',num2str(testCaseId),'_top.',file_format];
-    print_figure(figname,file_format,is_quality_high)
-    % create also side view for 3D geometries
-    view(0,0); zlabel('z'); % X-Z plane
-    % save figure
-    figname = [folder,'dim',num2str(dim),'_testCaseId',num2str(testCaseId),'_side.',file_format];
-    print_figure(figname,file_format,is_quality_high)
+    if dim==3
+        %------------------------------------
+        % create also top view for 3D geometries
+        view(0,90); xlabel('x');    % X-Y plane
+        % save figure
+        figname = [folder,'dim',num2str(dim),'_testCaseId',num2str(testCaseId),'_top.',file_format];
+        print_figure(figname,file_format,is_quality_high)
+        % create also side view for 3D geometries
+        view(0,0); zlabel('z'); % X-Z plane
+        % save figure
+        figname = [folder,'dim',num2str(dim),'_testCaseId',num2str(testCaseId),'_side.',file_format];
+        print_figure(figname,file_format,is_quality_high)
+    end
 end

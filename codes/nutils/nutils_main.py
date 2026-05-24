@@ -7,7 +7,7 @@ from nutils import mesh, function
 from nutils.expression_v2 import Namespace
 import numpy as np
 
-def main(domain,maxrefine,degree,interfaces,integral_type):
+def main(domain,maxrefine,degree,interfaces,integral_type,ndivisions):
 
     # create domain
     dim = len(domain['xmin'])
@@ -29,7 +29,8 @@ def main(domain,maxrefine,degree,interfaces,integral_type):
     # create trimmed domain
     domain = domain0
     for i,interface in enumerate(interfaces):
-        domain = domain.trim(-eval(interface), maxrefine=maxrefine, name='trim')
+        domain = domain.trim(-eval(interface),maxrefine=maxrefine,name='trim',\
+                             ndivisions=ndivisions)
 
     # gauss integration scheme
     if integral_type=='bulk':
@@ -60,4 +61,5 @@ def main(domain,maxrefine,degree,interfaces,integral_type):
     return measure.eval(),QP,weights
 
 if __name__ == "__main__":
-    measure,QP,weights = main(domain,maxrefine,degree,interfaces,integral_type)
+    measure,QP,weights = main(domain,maxrefine,degree,interfaces,integral_type,\
+                              ndivisions)

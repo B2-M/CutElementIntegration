@@ -7,6 +7,7 @@ Operating System: Linux, Windows
 ## Installation
 The following python packages have to installed:
 * mlhp
+* numpy
 
 pip installation is tested for the stated versions and recommended as installation procedure:
 ```

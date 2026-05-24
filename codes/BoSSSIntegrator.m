@@ -67,7 +67,7 @@ classdef BoSSSIntegrator < AbstractIntegrator
             if isCurrentFolderCorrect
                 if exist('./codes/bosss/repository','dir') == 7
                     % Also check if the .NET assembly exists
-                    pstr = fullfile(pwd + "\codes\bosss\repository\src\L4-application\MatlabCutCellQuadInterface\bin\Release\net6.0\BoSSS.Application.MatlabCutCellQuadInterface.dll");
+                    pstr = fullfile(pwd + "\codes\bosss\repository\src\L4-application\MatlabCutCellQuadInterface\bin\Release\net8.0\BoSSS.Application.MatlabCutCellQuadInterface.dll");
                     if exist(pstr, 'file') == 2
                         out = true;
                     else
@@ -83,7 +83,7 @@ classdef BoSSSIntegrator < AbstractIntegrator
             if ispc
                 dotnetenv("core");
                 %TO DO: Dotnet version should not be hardcoded
-                pstr = fullfile(pwd + "\codes\bosss\repository\src\L4-application\MatlabCutCellQuadInterface\bin\Release\net6.0\BoSSS.Application.MatlabCutCellQuadInterface.dll");
+                pstr = fullfile(pwd + "\codes\bosss\repository\src\L4-application\MatlabCutCellQuadInterface\bin\Release\net8.0\BoSSS.Application.MatlabCutCellQuadInterface.dll");
                 if exist(pstr, 'file') == 2
                     NET.addAssembly(pstr);
                 else
@@ -214,6 +214,7 @@ classdef BoSSSIntegrator < AbstractIntegrator
             end
 
             caller.ProjectLevelSet(objBoSSS.reparam_degree,hmfType, "Min")
+            %caller.ProjectLevelSet(objBoSSS.reparam_degree, hmfType)
             
             % calculate quadrature rules
             bosssDegree = objBoSSS.HMF_order(objBoSSS.n_quad_pts,2);
@@ -634,10 +635,11 @@ classdef BoSSSIntegrator < AbstractIntegrator
         
         function mf = bosss_MomentFitting(~, variantName)
             asm   = NET.addAssembly(fullfile(pwd,'codes','bosss','repository','src','L4-application', ...
-                'MatlabCutCellQuadInterface','bin','Release','net6.0','BoSSS.Foundation.XDG.dll'));
+                'MatlabCutCellQuadInterface','bin','Release','net8.0','BoSSS.Foundation.XDG.dll'));
         
-            baseT = asm.AssemblyHandle.GetType('BoSSS.Foundation.XDG.XQuadFactoryHelperBase', true);
-            enumT = baseT.GetNestedType('MomentFittingVariants', System.Reflection.BindingFlags.Public);
+            %baseT = asm.AssemblyHandle.GetType('BoSSS.Foundation.XDG.XQuadFactoryHelperBase', true);
+            %enumT = baseT.GetNestedType('MomentFittingVariants', System.Reflection.BindingFlags.Public);
+            enumT = asm.AssemblyHandle.GetType('BoSSS.Foundation.XDG.CutCellQuadratureMethod', true);
         
             mf = System.Enum.Parse(enumT, variantName);
         end

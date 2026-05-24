@@ -40,8 +40,12 @@ function obj = getTestCase3D(testCaseId,add_var)
 %   Detailed explanation goes here
 arguments
     testCaseId
+    add_var.d = 0
     add_var.integrand = []
 end
+
+% extract variables
+d = add_var.d;
 
 % set default integrand
 syms x y z
@@ -122,10 +126,40 @@ elseif testCaseId == 5 % cylinder with arbitrary integrand
 
     % define interface
     InterfaceId = 4;
-    interface = getInterfaceCase3D( InterfaceId );
+    interface = getInterfaceCase3D( InterfaceId,d );
 
 %     % define integrand
 %     integrand(x,y,z) = x^2 - 3*x*y + z/3;   % function from Gunderman et al. (2021, 3D)
+
+    % reference solution
+    ref = get_reference_solution(interface,integrand,domain);
+
+elseif testCaseId == 6  % moving ellipsoid
+
+    % define integration domain
+    xmin = [-1.1,-1.1,-1.1];  % the background mesh is moved instead of the geometry
+    xmax =  [1.1,1.1,1.1];
+    n_refs = 0;
+    domain = Domain(xmin, xmax, n_refs);
+
+    % define interface
+    InterfaceId = 6;
+    interface = getInterfaceCase3D( InterfaceId,d );
+
+    % reference solution
+    ref = get_reference_solution(interface,integrand,domain);
+
+elseif testCaseId == 7  % ellipsoid in moving background mesh
+
+    % define integration domain
+    xmin = [-1.1,-1.1-d,-1.1];  % the background mesh is moved instead of the geometry
+    xmax =  [1.1,1.1-d,1.1];
+    n_refs = 0;
+    domain = Domain(xmin, xmax, n_refs);
+
+    % define interface
+    InterfaceId = 6;
+    interface = getInterfaceCase3D( InterfaceId,0 );
 
     % reference solution
     ref = get_reference_solution(interface,integrand,domain);

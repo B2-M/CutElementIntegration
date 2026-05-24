@@ -79,6 +79,14 @@ elseif InterfaceId == 22 % UniBw Munich test case 16
     x_PI = 0.750417596651957; % Point of Intersections
     ref_integral = int(int(f,y,curve_explicit,1),x,0,x_PI) + ...
         int(int(f,y,0,1),x,x_PI,1);
+elseif InterfaceId == 47 % geometry from UniBw Munich test case 4 flipped around
+    % x=0.5
+    interface = getInterfaceCase2D( InterfaceId );
+    curve = sym(interface.implicit{4}.phi); % this is the curved boundary 
+    % for this interface
+    eqn = curve == 0;
+    curve_explicit = solve(eqn,x); % explicit C(y)=x
+    ref_integral = int(int(f,x,curve_explicit,1),y,0,1);
 else
     error(['There is no reference for an arbitrary integrand provided for this ' ...
         'example. Currently, references are only availabe for InterfaceId 11, ' ...

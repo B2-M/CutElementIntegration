@@ -97,11 +97,12 @@ classdef QuesoIntegrator < AbstractIntegrator
                 error('queso_create_stl cannot deal with multiple interfaces so far!')
             end
 
-            if objTest.id~=2 && objTest.id~=4 && objTest.id~=5 % Exclude case 
-                % 2 (torus), case 4 (cube) and case 5 (torus with integrand) 
-                % because the STLs are quite bad if created here; instead, 
-                % STLs from Rhino are used. The tori in objTest2.stl and in 
-                % objTest5.stl are generated with a tolerance of 1e-2.
+            if objTest.id~=2 && objTest.id~=4 && objTest.id~=5 && objTest.id~=7
+            % if objTest.id~=2 && objTest.id~=4 && objTest.id~=5 % Exclude case 
+            %     % 2 (torus), case 4 (cube) and case 5 (torus with integrand) 
+            %     % because the STLs are quite bad if created here; instead, 
+            %     % STLs from Rhino are used. The tori in objTest2.stl and in 
+            %     % objTest5.stl are generated with a tolerance of 1e-2.
 
                 % points
                 n_points = objQueso.n_stl_pts;

@@ -35,7 +35,11 @@
 % NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
 % SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-function interface = getInterfaceCase3D( InterfaceId )
+function interface = getInterfaceCase3D( InterfaceId,d )
+arguments
+    InterfaceId
+    d = 0  % parameter to move interfaces you, may check isMovingInterface
+end
 
 if InterfaceId == 1
 
@@ -91,6 +95,16 @@ elseif InterfaceId == 5
     [implCell,loops] = geo_cube_rotated(a,[pi()/2,pi()/3,pi()/4]);
     sizeInterface = 6*a*a;
     sizeInsideDomain = a*a*a;    
+
+elseif InterfaceId == 6
+
+    % shifted ellipsoid with semi axis
+    a=1; b=1/2; c=1/3;
+    x0 = 0; y0=-2.2/8+d; z0=0;
+    [phi,gradPhi,loops] = geo_ellipsoid_shifted(a,b,c,x0,y0,z0);
+    implCell = {LevelSetFunctionAndGradient(phi,gradPhi)};
+    sizeInterface = 4.400809564664971;
+    sizeInsideDomain =  pi()*a*b*c*4/3;
 
 else
 

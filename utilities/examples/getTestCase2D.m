@@ -335,11 +335,6 @@ elseif testCaseId==46   % UniBw Munich test case 4 with arbitrary integrand
     
     interface = getInterfaceCase2D( InterfaceId );
 
-%     integrand(x,y) = 2*x^2 + x*y - y + 2;   % first polynomial from Gunderman 
-%     % et al. (2021)
-     
-%     integrand(x,y) = x^5 * y^5; % monomial
-
     % reference solution
     ref = get_reference_solution(interface,integrand,domain);
 
@@ -392,6 +387,22 @@ elseif testCaseId==49   % UniBw Munich test case 3 with arbitrary integrand
 
 %     integrand(x,y) = exp(-x^2+2*y);   % function from Gunderman et al. (2021)
 %     integrand(x,y) = 1+x*0;
+
+    % reference solution
+    ref = get_reference_solution(interface,integrand,domain);
+
+elseif testCaseId==50   % geometry from UniBw Munich test case 4 flipped around 
+    % x=0.5 with arbitrary integrand
+
+    % define integration domain
+    x_min = [0,0];
+    x_max = [1,1];
+    n_refs = 0;
+    domain = Domain(x_min, x_max, n_refs);
+
+    InterfaceId = 47;
+    
+    interface = getInterfaceCase2D( InterfaceId );
 
     % reference solution
     ref = get_reference_solution(interface,integrand,domain);

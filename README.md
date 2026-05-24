@@ -31,9 +31,11 @@ The technical details to set up the framework are shown in [Getting started](#ge
 
 ## Publications
 
-This framework is described in the following publication:
+This framework is described in the following publications:
 
 T. Toprak, M. Loibl, G. H. Teixeira, I. Shiskina, C. Miao, J. Kiendl, B. Marussig, and F. Kummer, "Employing Continuous Integration inspired workflows for benchmarking of scientific software - A use case on numerical cut element quadrature," *Advances in Engineering Software*, vol. 213, 2026, doi: [10.1016/j.advengsoft.2025.104087](https://doi.org/10.1016/j.advengsoft.2025.104087).
+
+M. Loibl, G. H. Teixeira, T. Toprak, I. Shishkina, C. Miao, J. Kiendl, F. Kummer, and B. Marussig, "Comparative study of different quadrature methods for cut elements," *Archives of Computational Methods in Engineering*, 2026, doi: [10.1007/s11831-026-10619-2](https://doi.org/10.1007/s11831-026-10619-2).
 
 # Getting started
 

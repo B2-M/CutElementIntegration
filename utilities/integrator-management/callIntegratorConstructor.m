@@ -13,6 +13,7 @@ function objIntegrator = callIntegratorConstructor(name,n_quad_pts,add_settings)
 n_quad_pts_green = [];
 SpaceTreeDepth = [];
 reparam_degree = [];
+ndivisions = [];
 
 % value assignment
 if nargin > 2 && ~isempty(add_settings)
@@ -24,6 +25,9 @@ if nargin > 2 && ~isempty(add_settings)
     end    
     if isfield(add_settings,'SpaceTreeDepth')
         SpaceTreeDepth = add_settings.SpaceTreeDepth;
+    end 
+    if isfield(add_settings,'ndivisions')
+        ndivisions = add_settings.ndivisions;
     end
 end
 
@@ -34,8 +38,10 @@ className = char(className);  % Convert back to char for compatibility
 if strcmp(className,'FcmlabIntegrator') || strcmp(className,'NutilsIntegrator')
     if isempty(SpaceTreeDepth)
         objIntegrator = feval(className,n_quad_pts);
-    else
+    elseif isempty(ndivisions) || strcmp(className,'FcmlabIntegrator')
         objIntegrator = feval(className,n_quad_pts,SpaceTreeDepth);
+    else
+        objIntegrator = feval(className,n_quad_pts,SpaceTreeDepth,ndivisions);
     end
 elseif strcmp(className,'QuahogIntegrator')
     if isempty(n_quad_pts_green)

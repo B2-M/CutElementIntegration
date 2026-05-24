@@ -3,7 +3,7 @@
 %    Michael Loibl, University of the Bundeswehr Munich
 %    Benjamin Marussig, Graz University of Technology  
 %    Guilherme H. Teixeira, Graz University of Technology  
-%    Muhammed Toprak, Technische Universität Darmstadt
+%    Teoman Toprak, Technische Universität Darmstadt
 %  
 %
 %% Copyright (C) 2025, Graz University of Technology 
@@ -34,23 +34,48 @@
 % LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
 % NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
 % SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
-function print_figure(figname,file_format,is_quality_high)
-    if strcmp(file_format,'pdf')
-        if is_quality_high
-            % print(gcf,'-r1000','-dpdf',figname);
-            exportgraphics(gcf,figname,'ContentType','vector')
-        else
-            print(gcf,'-dpdf',figname);
+
+function [ellipsoid,gradEllipsoid,loops] = geo_ellipsoid_shifted(a,b,c, ...
+    x0,y0,z0)
+
+    %% implicit definition of the ellipsoid with the semi-axis a, b, and c
+    ellipsoid = @(x,y,z) (x-x0).*(x-x0)./(a*a) + (y-y0).*(y-y0)./(b*b) + ...
+        (z-z0).*(z-z0)./(c*c) - 1.0;
+
+    gradEllipsoid = { ...
+        @(x,y,z) (2.*x-2.*x.*x0)./(a*a), ...
+        @(x,y,z) (2.*y-2.*y.*y0)./(c*c), ...
+        @(x,y,z) (2.*z-2.*z.*z0)./(c*c), ...
+        };
+
+    %% parametric definition of the ellipsoid
+    
+    % 1: set up volleyball sphere parametrization
+    tiling = nrbspheretiling('cube',1);  % this creates QUINTIC NURBS surface
+    % 2: affine transformation to semi-axis
+    transMat = diag([a,b,c,1]);    
+    for ii = 1:length(tiling)
+        for jj = 1:size(tiling(ii).coefs,3)
+            tiling(ii).coefs(:,:,jj) = transMat * tiling(ii).coefs(:,:,jj);
         end
-    elseif strcmp(file_format,'svg')
-        if is_quality_high
-            % print(gcf,'-r1000','-dsvg',figname);
-            exportgraphics(gcf,figname,'ContentType','vector')
-        else
-            print(gcf,'-dsvg',figname);
-        end
-    else
-        error('Requeste "file_format" not available.')
     end
+    % 3: change origin
+    for ii = 1:length(tiling)
+        for jj = 1:size(tiling(ii).coefs,3)
+            for kk = 1:size(tiling(ii).coefs,2)
+                tiling(ii).coefs(1,kk,jj) = tiling(ii).coefs(1,kk,jj) - x0 * tiling(ii).coefs(4,kk,jj);
+                tiling(ii).coefs(2,kk,jj) = tiling(ii).coefs(2,kk,jj) - y0 * tiling(ii).coefs(4,kk,jj);
+                tiling(ii).coefs(3,kk,jj) = tiling(ii).coefs(3,kk,jj) - z0 * tiling(ii).coefs(4,kk,jj);
+            end
+        end
+    end
+
+    % store loop
+    loop_0 = struct();
+    for ii = 1:length(tiling)
+        loop_0(ii).surf = tiling(ii);
+        loop_0(ii).label = ii;
+    end
+    loops = {loop_0};
+
 end
